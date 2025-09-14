@@ -5,7 +5,6 @@ import com.luv2code.cruddemo.entity.Student;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
@@ -19,8 +18,50 @@ public class CruddemoApplication {
     public CommandLineRunner commandLineRunner(StudentDAO studentDAO) {
 
         return runner -> {
-            createStudent(studentDAO);
+           // createStudent(studentDAO);
+
+            //createMultipleStudents(studentDAO);
+
+            readStudent(studentDAO);
         };
+    }
+
+    private void readStudent(StudentDAO studentDAO) {
+
+        // create a tempstudent object
+        System.out.println("Creating new student object");
+        Student tempstudent = new Student("Daffy", "Duck", "daffy@luv2code.com");
+
+        // save the tempstudent
+        System.out.println("Saving the student...");
+        studentDAO.save(tempstudent);
+
+        // display id of the saved tempstudent
+        int theId = tempstudent.getId();
+        System.out.println("Saved student. Generated id: " + theId);
+
+        // retrieve tempstudent based on the id: primary key
+        System.out.println("Retrieving student with id: " + theId);
+        Student mystudent = studentDAO.findById(theId);
+
+        // display tempstudent
+        System.out.println("Found the student: " + mystudent);
+    }
+
+    private void createMultipleStudents(StudentDAO studentDAO) {
+
+        //create multiple students
+        System.out.println("Creating 3 student objects...");
+        Student tempStudent1 = new Student("Paul", "Doe", "paul@luv2code.com");
+        Student tempStudent2 = new Student("Mary", "Public", "mary@luv2code.com");
+        Student tempStudent3 = new Student("Bonita", "Applebaum", "bonita@luv2code.com");
+
+        // save the student objects
+        System.out.println("Saving the students...");
+        studentDAO.save(tempStudent1);
+        studentDAO.save(tempStudent2);
+        studentDAO.save(tempStudent3);
+
     }
 
     private void createStudent(StudentDAO studentDAO) {
